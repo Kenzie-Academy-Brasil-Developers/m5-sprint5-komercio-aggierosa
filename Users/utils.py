@@ -39,6 +39,7 @@ class CustomUserManager(BaseUserManager):
             last_name=last_name,
             password=password,
             is_superuser=True,
+            is_seller=True,
             **extra_fields
         )
 

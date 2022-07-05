@@ -80,7 +80,14 @@ class UserViewTest(APITestCase):
             is_seller=False,
         )
 
-        # # key error user
+        cls.super_user = dict(
+            email="x@x.com",
+            first_name="gus",
+            last_name="tavo",
+            password="123",
+        )
+
+        # key error user
 
         cls.key_error_user = dict(
             mail="b@b.com",
@@ -132,14 +139,14 @@ class UserViewTest(APITestCase):
     def test_seller_login_generates_token(self):
         user = User.objects.create_user(**self.seller_user)
 
-        response = self.client.post("/api/accounts/login/", self.seller_login_user)
+        response = self.client.post("/api/login/", self.seller_login_user)
 
         self.assertEqual(user.auth_token.key, response.data["token"])
 
     def test_regular_login_generates_token(self):
         user = User.objects.create_user(**self.regular_user)
 
-        response = self.client.post("/api/accounts/login/", self.regular_login_user)
+        response = self.client.post("/api/login/", self.regular_login_user)
 
         self.assertEqual(user.auth_token.key, response.data["token"])
 
@@ -174,7 +181,7 @@ class UserViewTest(APITestCase):
 
     def test_admin_activate_user(self):
         unactive_user = User.objects.create_user(**self.unactive_user)
-        superuser = User.objects.create_superuser(**self.seller_user)
+        superuser = User.objects.create_superuser(**self.super_user)
 
         supertoken = Token.objects.create(user=superuser)
 
