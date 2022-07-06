@@ -24,7 +24,7 @@ class AccountSerializer(serializers.ModelSerializer):
 class AccountManagementSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["is_active"]
 
 
 class LoginSerializer(serializers.Serializer):
